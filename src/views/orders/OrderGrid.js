@@ -38,7 +38,7 @@ const OrderGrid = ({ statusFilter }) => {
       }
 
       const response = await fetch(
-        "http://localhost:3001/vendor/verify-token",
+        `${envKey.BASE_URL}/vendor/verify-token` ,
         {
           method: "GET",
           headers: {
