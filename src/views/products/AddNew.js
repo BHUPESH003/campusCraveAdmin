@@ -251,7 +251,7 @@ const AddNewOrder = () => {
       // Call fetchData here
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `${envKey.BASE_URL}/vendor/verify-token`,
+        `https://campuscrave-backend.onrender.com/vendor/verify-token` ,
         {
           method: "GET",
           headers: {
@@ -310,7 +310,7 @@ const AddNewOrder = () => {
       }
 
       const response = await fetch(
-        `${envKey.BASE_URL}/vendor/verify-token`,
+        `https://campuscrave-backend.onrender.com/vendor/verify-token` ,
         {
           method: "GET",
           headers: {

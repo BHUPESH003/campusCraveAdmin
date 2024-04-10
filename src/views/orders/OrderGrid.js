@@ -38,7 +38,7 @@ const OrderGrid = ({ statusFilter }) => {
       }
 
       const response = await fetch(
-        `${envKey.BASE_URL}/vendor/verify-token` ,
+        `https://campuscrave-backend.onrender.com/vendor/verify-token` ,
         {
           method: "GET",
           headers: {
