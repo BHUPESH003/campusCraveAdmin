@@ -7,15 +7,12 @@ import {
   CFormInput,
   CFormLabel,
   CRow,
-  CFormTextarea,
-  CFormCheck,
+
 } from "@coreui/react";
-import { useNavigate } from "react-router-dom";
 // import { dataService } from "../../services/apiServices/dataService";
 // import AWS from "aws-sdk";
 import { envKey } from "src/Url";
 const AddNewCategory = () => {
-  const navigate = useNavigate();
   //   AWS.config.update({
   //     accessKeyId: "YOUR_ACCESS_KEY_ID",
   //     secretAccessKey: "YOUR_SECRET_ACCESS_KEY",
@@ -158,7 +155,7 @@ const AddNewCategory = () => {
         return imagePaths[index].uploadPath; // Return the image path in 'folderName/fileName' format
       });
 
-      const uploadedPaths = await Promise.all(uploadPromises);
+    await Promise.all(uploadPromises);
 
       // Construct data to update the form with processed data
       const updatedFormData = {
