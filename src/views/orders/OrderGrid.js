@@ -7,8 +7,6 @@ import "ag-grid-community/styles/ag-theme-material.css";
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Import Material theme
 // import { getAllOrderLoadableAtom } from "src/Context";
 import { useNavigate } from "react-router-dom";
-import { useAtom } from "jotai";
-import { dataService } from "src/services/apiServices/dataService";
 import { envKey } from "src/Url";
 // import { CheckCircleFill, XCircleFill } from "react-bootstrap-icons"; // Import React Bootstrap icons
 
@@ -28,39 +26,39 @@ const OrderGrid = ({ statusFilter }) => {
   // }, [allOrders.state]);
 
   // Assuming you have useState and useEffect imported from React
-  const verifyTokenAndProceedToCheckout = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        // Redirect to login page or display a message
-        navigate("/login");
-        return;
-      }
+  // const verifyTokenAndProceedToCheckout = async () => {
+  //   try {
+  //     const token = localStorage.getItem("token");
+  //     if (!token) {
+  //       // Redirect to login page or display a message
+  //       navigate("/login");
+  //       return;
+  //     }
 
-      const response = await fetch(
-        `https://campuscrave-backend.onrender.com/vendor/verify-token` ,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+  //     const response = await fetch(
+  //       `https://campuscrave-backend.onrender.com/vendor/verify-token` ,
+  //       {
+  //         method: "GET",
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
 
-      if (!response.ok) {
-        // Handle unauthorized access or invalid token
-        // Redirect to login page or display a message
-        return;
-      }
-      const { vendorId } = await response.json();
-      console.log({ vendorId });
-      // console.log("here")
-      fetchData(vendorId);
-      // makePayment(userName);
-    } catch (error) {
-      console.error("Error verifying token and proceeding to checkout:", error);
-    }
-  };
+  //     if (!response.ok) {
+  //       // Handle unauthorized access or invalid token
+  //       // Redirect to login page or display a message
+  //       return;
+  //     }
+  //     const { vendorId } = await response.json();
+  //     console.log({ vendorId });
+  //     // console.log("here")
+  //     fetchData(vendorId);
+  //     // makePayment(userName);
+  //   } catch (error) {
+  //     console.error("Error verifying token and proceeding to checkout:", error);
+  //   }
+  // };
 
   const fetchData = async (vendorId) => {
     console.log("Fetching", vendorId);
@@ -80,11 +78,41 @@ const OrderGrid = ({ statusFilter }) => {
     }
   };
   useEffect(() => {
-    // Assuming you want to fetch orders when the component mounts
+    console.log("here")
+    const verifyTokenAndProceedToCheckout = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          // Redirect to login page or display a message
+          return;
+        }
+  
+        const response = await fetch(
+          `https://campuscrave-backend.onrender.com/vendor/verify-token`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+  
+        if (!response.ok) {
+          // Handle unauthorized access or invalid token
+          // Redirect to login page or display a message
+          return;
+        }
+        const { vendorId } = await response.json();
+        console.log({ vendorId });
+        fetchData(vendorId);
+      } catch (error) {
+        console.error("Error verifying token and proceeding to checkout:", error);
+      }
+    };
+  
     verifyTokenAndProceedToCheckout();
-
-    // Call the fetchData function
-  }, []); // Empty dependency array to fetch data only once when the component mounts
+  }, []); // Empty dependency array to ensure the effect runs only once
+   // Empty dependency array to fetch data only once when the component mounts
   // Empty dependency array to fetch data only once when the component mounts
 
   const navigate = useNavigate();
@@ -93,47 +121,6 @@ const OrderGrid = ({ statusFilter }) => {
     navigate(`/orders/details/${orderId}`);
   };
 
-  // const handleAcceptOrder = (orderId) => {
-  //   const orderIndex = rowData.findIndex((order) => order._id === orderId);
-  //   if (orderIndex !== -1) {
-  //     const updatedData = [...rowData];
-  //     updatedData[orderIndex] = {
-  //       ...updatedData[orderIndex],
-  //       orderstatus: "Accepted",
-  //       actionTaken: true,
-  //     };
-  //     setRowData(updatedData);
-  //   }
-  // };
-
-  // const handleRejectOrder = (orderId) => {
-  //   const orderIndex = rowData.findIndex((order) => order._id === orderId);
-  //   if (orderIndex !== -1) {
-  //     const updatedData = [...rowData];
-  //     updatedData[orderIndex] = {
-  //       ...updatedData[orderIndex],
-  //       orderstatus: "Rejected",
-  //       actionTaken: true,
-  //     };
-  //     setRowData(updatedData);
-  //   }
-  // };
-
-  // const renderActionButtons = (params) => (
-  //   <div>
-  //     {!params.data.actionTaken && (
-  //       <>
-  //         <button onClick={() => handleRejectOrder(params.data._id)} className="button button-primary">
-  //           <XCircleFill color="red" />
-  //         </button>
-  //         <button onClick={() => handleAcceptOrder(params.data._id)}>
-  //           <CheckCircleFill color="green" />
-  //         </button>
-  //       </>
-  //     )}
-  //     <span>{params.data.orderstatus}</span>
-  //   </div>
-  // );
 
   const columnDefs = [
     // { headerName: "Serial No.", field: "index", sortable: true, filter: true },

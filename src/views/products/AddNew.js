@@ -12,10 +12,8 @@ import {
 // import { dataService } from "../../services/apiServices/dataService";
 // import AWS from "aws-sdk";
 import { envKey } from "src/Url";
-import { useNavigate } from "react-router-dom";
 
 const AddNewOrder = () => {
-  const navigate = useNavigate();
   // const [vendorId, setVendorId] = useState();
   const [categories, setCategories] = useState();
   // AWS.config.update({
@@ -103,78 +101,7 @@ const AddNewOrder = () => {
     }));
     e.target.value = null;
   };
-
-  // const verifyTokenAndProceedToCheckout = async () => {
-  //   try {
-  //     const token = localStorage.getItem("token");
-  //     if (!token) {
-  //       // Redirect to login page or display a message
-  //       navigate("/login");
-  //       return;
-  //     }
-
-  //     const response = await fetch(
-  //       "http://localhost:3001/vendor/verify-token",
-  //       {
-  //         method: "GET",
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-
-  //     if (!response.ok) {
-  //       // Handle unauthorized access or invalid token
-  //       // Redirect to login page or display a message
-  //       return;
-  //     }
-  //     const { vendorId } = await response.json();
-  //     // setVendorId(vendorId);
-  //     console.log({ vendorId });
-  //     // console.log("here")
-  //     const uploadSuccessful = await uploadImages();
-  //     console.log({ uploadSuccessful });
-  //     if (uploadSuccessful) {
-  //       fetchData(vendorId);
-
-  //     } else {
-  //       // Handle upload failure
-  //       console.error("Failed to")
-  //     }
-  //   } catch (error) {
-  //     console.error("Error verifying token and proceeding to checkout:", error);
-  //   }
-  // };
-
-  // const fetchData = async (vendorId) => {
-  //   console.log("Fetching", vendorId);
-
-  //   try {
-  //     // const { product } = formData;
-  //     // console.log(formData)
-  //     const response = await fetch(
-  //       `${envKey.BASE_URL}/vendor/${vendorId}/item`,
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(formData),
-  //       }
-  //     );
-
-  //     if (response.ok) {
-  //       console.log("Product added successfully");
-  //       // Optionally, perform any additional actions after successful category addition
-  //     } else {
-  //       console.error("Failed to add product:", response.statusText);
-  //       // Handle error
-  //     }
-  //   } catch (error) {
-  //     console.error("Error adding product:", error);
-  //     // Handle error
-  //   }
-  // };
+  
   const uploadImages = async () => {
     try {
       const folderName = Foldername; // Get folderName from formData
@@ -235,7 +162,7 @@ const AddNewOrder = () => {
         return imagePaths[index].uploadPath; // Return the image path in 'folderName/fileName' format
       });
 
-      const uploadedPaths = await Promise.all(uploadPromises);
+      await Promise.all(uploadPromises);
 
       // Construct data to update the form with processed data
       const updatedFormData = {
@@ -251,7 +178,7 @@ const AddNewOrder = () => {
       // Call fetchData here
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `https://campuscrave-backend.onrender.com/vendor/verify-token` ,
+        `https://campuscrave-backend.onrender.com/vendor/verify-token`,
         {
           method: "GET",
           headers: {
@@ -300,39 +227,39 @@ const AddNewOrder = () => {
     }
   };
 
-  const verifyTokenAndFetchCategory = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        // Redirect to login page or display a message
-        navigate("/login");
-        return;
-      }
+  // const verifyTokenAndFetchCategory = async () => {
+  //   try {
+  //     const token = localStorage.getItem("token");
+  //     if (!token) {
+  //       // Redirect to login page or display a message
+  //       navigate("/login");
+  //       return;
+  //     }
 
-      const response = await fetch(
-        `https://campuscrave-backend.onrender.com/vendor/verify-token` ,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+  //     const response = await fetch(
+  //       `https://campuscrave-backend.onrender.com/vendor/verify-token`,
+  //       {
+  //         method: "GET",
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
 
-      if (!response.ok) {
-        // Handle unauthorized access or invalid token
-        // Redirect to login page or display a message
-        return;
-      }
-      const { vendorId } = await response.json();
-      console.log({ vendorId });
-      // console.log("here")
-      fetchCategoryData(vendorId);
-      // makePayment(userName);
-    } catch (error) {
-      console.error("Error verifying token and proceeding to checkout:", error);
-    }
-  };
+  //     if (!response.ok) {
+  //       // Handle unauthorized access or invalid token
+  //       // Redirect to login page or display a message
+  //       return;
+  //     }
+  //     const { vendorId } = await response.json();
+  //     console.log({ vendorId });
+  //     // console.log("here")
+  //     fetchCategoryData(vendorId);
+  //     // makePayment(userName);
+  //   } catch (error) {
+  //     console.error("Error verifying token and proceeding to checkout:", error);
+  //   }
+  // };
   const fetchCategoryData = async (vendorId) => {
     console.log("Fetching", vendorId);
     try {
@@ -352,6 +279,42 @@ const AddNewOrder = () => {
   };
 
   useEffect(() => {
+    const verifyTokenAndFetchCategory = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          // Redirect to login page or display a message
+
+          return;
+        }
+
+        const response = await fetch(
+          `https://campuscrave-backend.onrender.com/vendor/verify-token`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          // Handle unauthorized access or invalid token
+          // Redirect to login page or display a message
+          return;
+        }
+        const { vendorId } = await response.json();
+        console.log({ vendorId });
+        // console.log("here")
+        fetchCategoryData(vendorId);
+        // makePayment(userName);
+      } catch (error) {
+        console.error(
+          "Error verifying token and proceeding to checkout:",
+          error
+        );
+      }
+    };
     // Assuming you want to fetch orders when the component mounts
     verifyTokenAndFetchCategory();
 
@@ -392,7 +355,7 @@ const AddNewOrder = () => {
               name="item_name"
               value={formData.item_name}
               onChange={handleChange}
-              placeholder="Product Name" 
+              placeholder="Product Name"
               required
             />
           </CCol>

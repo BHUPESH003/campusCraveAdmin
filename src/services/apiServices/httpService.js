@@ -77,6 +77,8 @@ export default class HttpService {
       case StatusCode.TooManyRequests: {
         break;
       }
+      default:
+        break;
     }
     return Promise.reject(error);
   }

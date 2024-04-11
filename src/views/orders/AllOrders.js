@@ -1,22 +1,16 @@
 import React, { useState } from "react";
 import { CButton } from "@coreui/react";
-import { cilPlus } from "@coreui/icons";
-import { useNavigate } from "react-router-dom";
 import OrderGrid from "./OrderGrid"; // Assume OrderGrid is in the same folder
-import CIcon from "@coreui/icons-react";
 
 function AllOrders() {
   const buttonData = ["All Orders", "Pending", "Accepted", "Shipped", "Delivered"];
   const [statusFilter, setStatusFilter] = useState(null); // Default to show all orders
-  const navigate = useNavigate();
 
   const handleButtonClick = (buttonName) => {
     setStatusFilter(buttonName === "All Orders" ? null : buttonName);
   };
 
-  const handleAddClick = () => {
-    navigate("/orders/add/new");
-  };
+  
 
   return (
     <div className="container-fluid">

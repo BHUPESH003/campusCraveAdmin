@@ -1,62 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
-import {
-  CRow,
-  CCol,
-  CDropdown,
-  CDropdownMenu,
-  CDropdownItem,
-  CDropdownToggle,
-  CWidgetStatsA,
-} from "@coreui/react";
+import { CRow, CCol, CWidgetStatsA } from "@coreui/react";
 import { getStyle } from "@coreui/utils";
-import { CChartBar, CChartLine } from "@coreui/react-chartjs";
-import CIcon from "@coreui/icons-react";
-import { cilArrowBottom, cilArrowTop, cilOptions } from "@coreui/icons";
+import { CChartLine } from "@coreui/react-chartjs";
 import { envKey } from "src/Url";
-import { useNavigate } from "react-router-dom";
 
 const WidgetsDropdown = (props) => {
   const widgetChartRef1 = useRef(null);
   const widgetChartRef2 = useRef(null);
-  const navigate = useNavigate();
   const [stats, setStats] = useState();
-  const verifyTokenAndProceedToCheckout = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        // Redirect to login page or display a message
-        navigate("/login");
-        return;
-      }
-
-      const response = await fetch(
-        `https://campuscrave-backend.onrender.com/vendor/verify-token` ,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        // Handle unauthorized access or invalid token
-        // Redirect to login page or display a message
-        return;
-      }
-      const { vendorId } = await response.json();
-      console.log({ vendorId });
-      // console.log("here")
-      // fetchVendorStats(vendorId);
-      const data = await fetchVendorStats(vendorId);
-      setStats(data);
-      // makePayment(userName);
-    } catch (error) {
-      console.error("Error verifying token and proceeding to checkout:", error);
-    }
-  };
 
   function fetchVendorStats(vendorId) {
     return fetch(`${envKey.BASE_URL}/vendor/stats/${vendorId}`)
@@ -72,8 +25,45 @@ const WidgetsDropdown = (props) => {
   }
   useEffect(() => {
     // Assuming you want to fetch orders when the component mounts
-    verifyTokenAndProceedToCheckout();
+    const verifyTokenAndProceedToCheckout = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          // Redirect to login page or display a message
 
+          return;
+        }
+
+        const response = await fetch(
+          `https://campuscrave-backend.onrender.com/vendor/verify-token`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) {
+          // Handle unauthorized access or invalid token
+          // Redirect to login page or display a message
+          return;
+        }
+        const { vendorId } = await response.json();
+        console.log({ vendorId });
+        // console.log("here")
+        // fetchVendorStats(vendorId);
+        const data = await fetchVendorStats(vendorId);
+        setStats(data);
+        // makePayment(userName);
+      } catch (error) {
+        console.error(
+          "Error verifying token and proceeding to checkout:",
+          error
+        );
+      }
+    };
+    verifyTokenAndProceedToCheckout();
     // Call the fetchData function
   }, []);
 
@@ -105,7 +95,7 @@ const WidgetsDropdown = (props) => {
           color="primary"
           value={
             <>
-               {stats && stats.total_orders} {" "}
+              {stats && stats.total_orders}{" "}
               <span className="fs-6 fw-normal">
                 {/* (-12.4% <CIcon icon={cilArrowBottom} />) */}
               </span>
@@ -207,7 +197,7 @@ const WidgetsDropdown = (props) => {
           color="info"
           value={
             <>
-             {stats && stats.total_amount} {" "}
+              {stats && stats.total_amount}{" "}
               <span className="fs-6 fw-normal">
                 {/* (40.9% <CIcon icon={cilArrowTop} />) */}
               </span>
@@ -308,7 +298,7 @@ const WidgetsDropdown = (props) => {
           color="warning"
           value={
             <>
-              {stats && stats.total_items_sold} {" "}
+              {stats && stats.total_items_sold}{" "}
               <span className="fs-6 fw-normal">
                 {/* (84.7% <CIcon icon={cilArrowTop} />) */}
               </span>

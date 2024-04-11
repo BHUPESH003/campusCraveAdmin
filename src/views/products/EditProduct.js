@@ -12,7 +12,6 @@ import {
 } from "@coreui/react";
 import { dataService } from "../../services/apiServices/dataService";
 // import AWS from "aws-sdk";
-import PropTypes from "prop-types"; // Import PropTypes
 import { useParams } from "react-router-dom";
 
 const EditProduct = () => {
@@ -51,7 +50,7 @@ const EditProduct = () => {
     // Fetch product details when component mounts
     const fetchProductDetails = async () => {
       try {
-        const product = dataService.getProductById(productId.id).then((product) => {
+         dataService.getProductById(productId.id).then((product) => {
           console.log(product);
           setFormData(product); // Populate state with fetched product details
         });

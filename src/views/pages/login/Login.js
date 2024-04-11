@@ -16,7 +16,6 @@ import {
 import CIcon from "@coreui/icons-react";
 import { cilLockLocked, cilUser } from "@coreui/icons";
 import { envKey } from "src/Url";
-import { atom, useAtom } from "jotai";
 
 
 const Login = () => {
