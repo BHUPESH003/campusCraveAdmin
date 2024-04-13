@@ -11,6 +11,8 @@ import {
 } from "@coreui/react";
 // import { dataService } from "../../services/apiServices/dataService";
 // import AWS from "aws-sdk";
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 import { envKey } from "src/Url";
 
 const AddNewOrder = () => {
@@ -327,9 +329,10 @@ const AddNewOrder = () => {
   };
 
   console.log(formData);
-
+const notify = () => toast.success("Product added successfully!")
   return (
     <CContainer>
+      <ToastContainer autoClose={2000} />
       <h3>Add New Product</h3>
       <div className="row">
         {categories &&
@@ -419,7 +422,7 @@ const AddNewOrder = () => {
           {/* Add other form fields similarly */}
         </CRow>
 
-        <CButton color="primary" type="submit" className="mt-4 mb-4">
+        <CButton onClick={notify} color="primary" type="submit" className="mt-4 mb-4">
           Add Product
         </CButton>
       </CForm>

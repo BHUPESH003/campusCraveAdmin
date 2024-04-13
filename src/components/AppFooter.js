@@ -8,7 +8,7 @@ const AppFooter = () => {
         <a href="https://campuscrave.netlify.app" target="_blank" rel="noopener noreferrer">
           CampusCrave
         </a>
-        <span className="ms-1">&copy; 2024 Barnshenn.</span>
+        <span className="ms-1">&copy; 2024 </span>
       </div>
       <div className="ms-auto">
         <span className="me-1">Developed by</span>

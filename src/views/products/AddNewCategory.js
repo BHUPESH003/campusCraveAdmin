@@ -9,6 +9,8 @@ import {
   CRow,
 
 } from "@coreui/react";
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 // import { dataService } from "../../services/apiServices/dataService";
 // import AWS from "aws-sdk";
 import { envKey } from "src/Url";
@@ -20,7 +22,7 @@ const AddNewCategory = () => {
   //   });
 
   //   const s3 = new AWS.S3();
-
+  const notify = () => toast.success("Added new Category!");
   const [formData, setFormData] = useState({
     category: "",
     imageUrl: [],
@@ -258,10 +260,11 @@ const AddNewCategory = () => {
   //     console.error("Failed to save product:", error);
   //     // Handle error
   //   }
-  // };
+  // }; 
   console.log(formData);
   return (
     <CContainer>
+      <ToastContainer autoClose={2000} />
       <h3>Add New Category</h3>
       <CForm onSubmit={handleSubmit}>
         <CRow>
@@ -298,7 +301,7 @@ const AddNewCategory = () => {
           {/* Add other form fields similarly */}
         </CRow>
 
-        <CButton color="primary" type="submit" className="mt-4 mb-4">
+        <CButton onClick={notify} color="primary" type="submit" className="mt-4 mb-4">
           Add Category
         </CButton>
       </CForm>
